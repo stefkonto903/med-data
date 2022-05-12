@@ -1,32 +1,27 @@
-basi <- read.csv("icd10cm_order_2018_1.csv",header = FALSE,se=",") ##diavasma tou arxeiou me tis astheneies
+library(RISmed)
+library(ggplot2)
 
-zitoumena <- basi[basi[,2] == "K14617" || basi[,2] == "K4617" || basi[,2] == "K617"      ##anazitisi kai kataxorisi
-                   ||basi[,2] == "D14184" || basi[,2] == "D4184" || basi[,2] == "D184"        ##twn zitoumenwn
+basi <- read.csv("icd10cm_order_2018_1.csv",header = FALSE,se=",") ## reading file containing diseases
+
+specific_diseases <- basi[basi[,2] == "K14617" || basi[,2] == "K4617" || basi[,2] == "K617"      ## search & entry of
+                   ||basi[,2] == "D14184" || basi[,2] == "D4184" || basi[,2] == "D184"        ## specific diseases
                    ||basi[,2] == "S14617" || basi[,2] == "S4617" || basi[,2] == "S617"
                    ||basi[,2] == "M14184" || basi[,2] == "M4184" || basi[,2] == "M184", ]
 
-leksi <- zitoumena[,4]
+word <- specific_diseases[,4]
 
-library(RISmed)
+year1 <- QueryCount(EUtilsSummary(word[1], type = "esearch", db = "pubmed", mindate = 2014, maxdate = 2014, retmax=500)) ## pubmed search
 
-year1 <- QueryCount(EUtilsSummary(leksi[1], type = "esearch", db = "pubmed", mindate = 2014, maxdate = 2014, retmax=500)) ## anazitisi sto pubmed
+year2 <- QueryCount(EUtilsSummary(word[1], type = "esearch", db = "pubmed", mindate = 2015, maxdate = 2015, retmax=500)) 
 
+year3 <- QueryCount(EUtilsSummary(word[1], type = "esearch", db = "pubmed", mindate = 2016, maxdate = 2016, retmax=500))
 
-year2 <- QueryCount(EUtilsSummary(leksi[1], type = "esearch", db = "pubmed", mindate = 2015, maxdate = 2015, retmax=500)) ## anazitisi sto pubmed
+year4 <- QueryCount(EUtilsSummary(word[1], type = "esearch", db = "pubmed", mindate = 2017, maxdate = 2017, retmax=500))
 
+year5 <- QueryCount(EUtilsSummary(word[1], type = "esearch", db = "pubmed", mindate = 2018, maxdate = 2018, retmax=500))
 
-year3 <- QueryCount(EUtilsSummary(leksi[1], type = "esearch", db = "pubmed", mindate = 2016, maxdate = 2016, retmax=500)) ## anazitisi sto pubmed
+total_papers <- c(year1,year2,year3,year4,year5)
 
+names(total_papers) <- c("2014", "2015", "2016", "2017", "2018")
 
-year4 <- QueryCount(EUtilsSummary(leksi[1], type = "esearch", db = "pubmed", mindate = 2017, maxdate = 2017, retmax=500)) ## anazitisi sto pubmed
-
-
-year5 <- QueryCount(EUtilsSummary(leksi[1], type = "esearch", db = "pubmed", mindate = 2018, maxdate = 2018, retmax=500)) ## anazitisi sto pubmed
-
-library(ggplot2)
-
-sinolo_dimosieusewn <- c(year1,year2,year3,year4,year5)
-
-names(sinolo_dimosieusewn) <- c("2014", "2015", "2016", "2017", "2018")
-
-hist(sinolo_dimosieusewn) ##istogramma dimosieusewn
+hist(total_papers) ## number of results

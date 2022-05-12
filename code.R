@@ -1,12 +1,12 @@
 library(RISmed)
 library(ggplot2)
 
-basi <- read.csv("icd10cm_order_2018_1.csv",header = FALSE,se=",") ## reading file containing diseases
+data_b <- read.csv("icd10cm_order_2018_1.csv",header = FALSE,se=",") ## reading file containing diseases
 
-specific_diseases <- basi[basi[,2] == "K14617" || basi[,2] == "K4617" || basi[,2] == "K617"      ## search & entry of
-                   ||basi[,2] == "D14184" || basi[,2] == "D4184" || basi[,2] == "D184"        ## specific diseases
-                   ||basi[,2] == "S14617" || basi[,2] == "S4617" || basi[,2] == "S617"
-                   ||basi[,2] == "M14184" || basi[,2] == "M4184" || basi[,2] == "M184", ]
+specific_diseases <- data_b[data_b[,2] == "K14617" || data_b[,2] == "K4617" || data_b[,2] == "K617"      ## search & entry of
+                   ||data_b[,2] == "D14184" || data_b[,2] == "D4184" || data_b[,2] == "D184"        ## specific diseases
+                   ||data_b[,2] == "S14617" || data_b[,2] == "S4617" || data_b[,2] == "S617"
+                   ||data_b[,2] == "M14184" || data_b[,2] == "M4184" || data_b[,2] == "M184", ]
 
 word <- specific_diseases[,4]
 
